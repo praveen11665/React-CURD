@@ -1,18 +1,26 @@
 import React, { useState } from 'react';
 import { Button} from 'react-bootstrap';
 import AddEditUserPopUp from './AddEditUserPopUp';
+import { faPencil } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 
-export default function AddUser(props) {
-    const {refreshData} = props;
+export default function EditUser(props) {
+    const {userData, refreshData} = props; 
 
-    const [id] = useState('');
+    const [id, setId] = useState('');
     const [name, setName] = useState('');
     const [company, setCompany] = useState('');
-    const [avatar, setAvatar] = useState('https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/10.jpg');
+    const [avatar, setAvatar] = useState('');
 
     const [showModal, setShowModal] = useState(false);
+    const openModal = () => {
+        setId(userData.id)
+        setName(userData.name)
+        setCompany(userData.company)
+        setAvatar(userData.avatar)
+
+        setShowModal(true)
+    }
     const closeModal = () => {
         setShowModal(false)
     }
@@ -22,17 +30,16 @@ export default function AddUser(props) {
             setName(value)
         } else if(prop === 'company') {
             setCompany(value)
-        } else if(prop === 'avatar') {
+        } else {
             setAvatar(value)
         }
     }
 
     return (
         <div>
-            <Button variant="primary" className='float-right mb-2' onClick={setShowModal}>
-                <FontAwesomeIcon icon={ faPlusCircle } className="mr-1"/>
-                Add User
-            </Button>
+            <Button variant="primary" size="sm" className='mr-1' onClick={openModal}>
+                <FontAwesomeIcon icon={ faPencil }/>
+            </Button>            
 
             <AddEditUserPopUp 
                 showModal={showModal} 

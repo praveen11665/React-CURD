@@ -1,11 +1,11 @@
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import AddUser from './addUser';
+import AddUser from './AddUser';
+import EditUser from './EditUser';
 import React, { useEffect, useState } from 'react';
 import {Image, Table, Button } from 'react-bootstrap';
+import { faTrash} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash, faPencil } from '@fortawesome/free-solid-svg-icons';
-
 
 export default function List() {
     const [usersList, setUserData] = useState([]);
@@ -36,11 +36,11 @@ export default function List() {
                 })
             }
         });
-    }
+    }    
 
     return (
         <div className='col-12'>
-            <AddUser getData={getData}/>
+            <AddUser refreshData={getData}/>
 
             <Table striped bordered hover variant="dark" size="sm">
                 <thead>
@@ -66,13 +66,16 @@ export default function List() {
                                         <td>{ user.name }</td>
                                         <td>{ user.company }</td>
                                         <td>{ user.createdAt }</td>
-                                        <td>
-                                            <Button variant="primary" size="sm" className='mr-1'>
-                                                <FontAwesomeIcon icon={ faPencil }/>
-                                            </Button>
-                                            <Button variant="danger" size="sm" onClick={() => onDelete(user.id)}>
-                                                <FontAwesomeIcon icon={ faTrash }/>
-                                            </Button>
+                                        <td className='d-flex justify-content-center'>
+                                            <EditUser 
+                                                userData={user}
+                                                refreshData={getData} 
+                                            />
+                                            <div>
+                                                <Button variant="danger" size="sm" onClick={() => onDelete(user.id)}>
+                                                    <FontAwesomeIcon icon={ faTrash }/>
+                                                </Button>
+                                            </div>
                                         </td>
                                     </tr>                            
                                 )
